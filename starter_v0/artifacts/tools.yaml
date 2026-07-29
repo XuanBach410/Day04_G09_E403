@@ -107,6 +107,79 @@ tools:
           description: "Có gọi Alpha Vantage API để lấy sector/industry/company profile theo ticker hay không. Cần ALPHAVANTAGE_API_KEY trong .env."
       required: []
 
+  - name: market_data
+    description: "Tra cứu dữ liệu thị trường công khai tương tự yfinance: giá gần nhất, lịch sử OHLCV hoặc tìm mã. Dữ liệu chỉ để tham khảo, không phải tư vấn đầu tư."
+    parameters:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [quote, history, search]
+          description: "Loại truy vấn: quote lấy giá gần nhất, history lấy OHLCV, search tìm mã."
+        symbol:
+          type: string
+          default: ""
+          description: "Mã, ví dụ AAPL, BTC-USD, VNM.VN; bắt buộc cho quote/history."
+        range_:
+          type: string
+          default: "1mo"
+          description: "Khoảng lịch sử: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd hoặc max."
+        interval:
+          type: string
+          default: "1d"
+          description: "Tần suất dữ liệu, ví dụ 1m, 1h, 1d, 1wk hoặc 1mo."
+        query:
+          type: string
+          default: ""
+          description: "Từ khóa tìm mã; bắt buộc cho search."
+        limit:
+          type: integer
+          default: 8
+          description: "Số kết quả tìm kiếm, tối đa 20."
+      required: [action]
+
+  - name: vnstock_tool
+    description: "Lấy dữ liệu lịch sử gần đây cho mã cổ phiếu Việt Nam qua thư viện vnstock nếu được cài. Dùng cho mã VN như HPG, FPT, VCB, SSI khi user hỏi dữ liệu lịch sử/giá gần đây."
+    parameters:
+      type: object
+      properties:
+        symbol:
+          type: string
+          default: ""
+          description: "Mã cổ phiếu Việt Nam, ví dụ HPG, FPT, VCB."
+        start:
+          type: string
+          default: "2024-01-01"
+          description: "Ngày bắt đầu YYYY-MM-DD."
+        end:
+          type: string
+          default: "2024-12-31"
+          description: "Ngày kết thúc YYYY-MM-DD."
+        limit:
+          type: integer
+          default: 5
+          description: "Số dòng gần nhất cần trả."
+      required: [symbol]
+
+  - name: whale_market_flow
+    description: "Phân tích dòng tiền cá voi và trạng thái thanh khoản của mã cổ phiếu, dựa trên volume so với trung bình 20 phiên. Dùng khi user hỏi cá voi gom/xả, thanh khoản sôi động hay ảm đạm."
+    parameters:
+      type: object
+      properties:
+        symbol:
+          type: string
+          default: ""
+          description: "Mã cổ phiếu, ưu tiên mã Việt Nam như HPG, FPT, VNM."
+        days:
+          type: integer
+          default: 30
+          description: "Số phiên gần nhất để tìm tín hiệu."
+        threshold_multiplier:
+          type: number
+          default: 2.0
+          description: "Ngưỡng volume so với trung bình 20 phiên để coi là đột biến."
+      required: [symbol]
+
   # ---------------- Bonus tools ----------------
   - name: send
     description: "Gửi một đoạn văn bản đi."

@@ -18,6 +18,9 @@ from .social_search.tool import search_tweets
 from .send.tool import send_telegram
 from .lookup.tool import web_search
 from .sector_analysis.tool import analyze_sector
+from .market_data.tool import market_data
+from .vnstock_tool.tool import get_vnstock_history
+from .whale_market_flow.tool import execute as analyze_whale_market_flow
 
 
 # NOTE (starter_v0): tool names here are intentionally vague. These keys are the
@@ -37,6 +40,9 @@ TOOL_FUNCTIONS = {
     "papers": arxiv_search,
     "paper_text": get_arxiv_paper_text,
     "sector_analysis": analyze_sector,
+    "market_data": market_data,
+    "vnstock_tool": get_vnstock_history,
+    "whale_market_flow": analyze_whale_market_flow,
 }
 
 

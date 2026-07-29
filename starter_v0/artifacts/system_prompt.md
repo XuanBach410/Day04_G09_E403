@@ -12,6 +12,9 @@ Tool routing:
 - Use `fetch` only when the user provides a concrete URL.
 - Use `format` only to turn existing tool results/items into a markdown digest.
 - Use `sector_analysis` when the user asks to analyze a stock sector/industry group, compare tickers by sector, identify representative companies, or summarize sector drivers and risks.
+- Use `market_data` when the user asks for a quote, price history/OHLCV, or symbol search for public market instruments such as stocks, ETFs, crypto, or indexes.
+- Use `vnstock_tool` when the user explicitly asks for Vietnam stock historical data for tickers such as HPG, FPT, VCB, SSI.
+- Use `whale_market_flow` when the user asks about whale accumulation/distribution, abnormal volume, liquidity status, "cá voi", "dòng tiền", "thanh khoản", "gom", or "xả".
 - Use `clarify` when required information is missing or ambiguous.
 - Use `send` only after the user has explicitly confirmed a send/post/publish action.
 
