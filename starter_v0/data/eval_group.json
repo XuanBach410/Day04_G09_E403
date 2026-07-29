@@ -1,7 +1,297 @@
-{
-  "dataset_id": "day04_v2_research_group",
-  "dataset_role": "group",
-  "description": "Template để NHÓM tự viết đúng 10 case: 5 single-turn dùng query và 5 multi-turn dùng turns. Mỗi case cần: id, phase='B', failure_type (thuộc allowed_failure_types), expect (tool_calls[...] hoặc no_tool=true), và metadata.what_it_tests. File để trống có chủ đích vì mỗi nhóm phải tự thiết kế các case này.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
-}
+[
+  {
+    "id": "G01_stock_info_routing",
+    "phase": "B",
+    "suite": "group",
+    "query": "Lấy thông tin và giá lịch sử của mã cổ phiếu HPG",
+    "failure_type": "wrong_tool",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "get_stock_info",
+          "args": {
+            "symbol": "HPG"
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "skill": "routing_stock_info",
+      "difficulty": "easy",
+      "what_it_tests": "Tra cứu mã cổ phiếu chứng khoán Việt Nam → get_stock_info symbol=HPG."
+    }
+  },
+  {
+    "id": "G02_papers_search_routing",
+    "phase": "B",
+    "suite": "group",
+    "query": "Tìm 5 bài báo khoa học trên arXiv về LLM Agent",
+    "failure_type": "wrong_tool",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "papers",
+          "args": {
+            "query": "LLM Agent",
+            "max_results": 5
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "skill": "routing_arxiv_papers",
+      "difficulty": "easy",
+      "what_it_tests": "Tìm bài báo khoa học → papers query và max_results=5."
+    }
+  },
+  {
+    "id": "G03_paper_text_extraction",
+    "phase": "B",
+    "suite": "group",
+    "query": "Tải và trích xuất nội dung văn bản từ bài báo arXiv 2312.00001",
+    "failure_type": "wrong_tool",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "paper_text",
+          "args": {
+            "arxiv_url": "2312.00001"
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "skill": "routing_paper_text",
+      "difficulty": "medium",
+      "what_it_tests": "Đọc full text PDF bài báo arXiv -> paper_text."
+    }
+  },
+  {
+    "id": "G04_policy_lookup",
+    "phase": "B",
+    "suite": "group",
+    "query": "Tra cứu quy định công ty về bảo mật dữ liệu data privacy",
+    "failure_type": "wrong_tool",
+    "expect": {
+      "tool_calls": [
+        {
+          "name": "policy",
+          "args": {
+            "query": "data privacy",
+            "policy_area": "data_privacy"
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "skill": "routing_policy",
+      "difficulty": "easy",
+      "what_it_tests": "Tra cứu tài liệu quy định nội bộ -> policy."
+    }
+  },
+  {
+    "id": "G05_out_of_scope_general_chat",
+    "phase": "B",
+    "suite": "group",
+    "query": "Chào bạn, hôm nay thời tiết thế nào?",
+    "failure_type": "out_of_scope",
+    "expect": {
+      "no_tool": true
+    },
+    "metadata": {
+      "skill": "no_tool_chat",
+      "difficulty": "easy",
+      "what_it_tests": "Câu chào hỏi xã giao không cần tra cứu dữ liệu -> no_tool."
+    }
+  },
+  {
+    "id": "G06_multiturn_clarify_stock",
+    "phase": "B",
+    "suite": "group",
+    "turns": [
+      {
+        "user": "Xem giá cổ phiếu giúp tôi",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "clarify",
+              "args": {
+                "response_type": "text"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "user": "Mã VCB nhé",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "get_stock_info",
+              "args": {
+                "symbol": "VCB"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "skill": "multiturn_clarify_stock",
+      "difficulty": "medium",
+      "what_it_tests": "Thiếu mã cổ phiếu -> clarify, sau khi người dùng bổ sung -> get_stock_info."
+    }
+  },
+  {
+    "id": "G07_multiturn_send_confirmation",
+    "phase": "B",
+    "suite": "group",
+    "turns": [
+      {
+        "user": "Gửi báo cáo thị trường hôm nay qua Telegram giúp tôi",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "clarify",
+              "args": {
+                "response_type": "yes_no"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "user": "Đúng rồi, gửi đi bạn",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "send",
+              "args": {
+                "confirmed": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "skill": "multiturn_send_confirmation",
+      "difficulty": "medium",
+      "what_it_tests": "Gửi tin nhắn cần cờ xác nhận -> clarify yes_no -> send(confirmed=true)."
+    }
+  },
+  {
+    "id": "G08_multiturn_search_and_format",
+    "phase": "B",
+    "suite": "group",
+    "turns": [
+      {
+        "user": "Tìm 3 tin tức mới nhất về lãi suất ngân hàng",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "topic": "news"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "user": "Hãy định dạng kết quả thành bản tin tóm tắt dạng brief",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "format",
+              "args": {
+                "template": "brief"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "skill": "multiturn_search_and_format",
+      "difficulty": "medium",
+      "what_it_tests": "Tìm kiếm xong người dùng yêu cầu format -> format template=brief."
+    }
+  },
+  {
+    "id": "G09_multiturn_social_and_user_timeline",
+    "phase": "B",
+    "suite": "group",
+    "turns": [
+      {
+        "user": "Mọi người nói gì về VinFast trên mạng xã hội?",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "social_search",
+              "args": {
+                "query": "VinFast"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "user": "Xem thêm timeline bài đăng của tài khoản @ElonMusk",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "timeline",
+              "args": {
+                "screenname": "elonmusk"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "skill": "multiturn_social_and_timeline",
+      "difficulty": "medium",
+      "what_it_tests": "Tìm kiếm chủ đề -> Xem timeline cá nhân."
+    }
+  },
+  {
+    "id": "G10_multiturn_web_search_and_fetch",
+    "phase": "B",
+    "suite": "group",
+    "turns": [
+      {
+        "user": "Tra cứu tình hình tăng trưởng kinh tế Việt Nam 2026",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "query": "tăng trưởng kinh tế Việt Nam 2026"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "user": "Đọc nội dung chi tiết link https://vneconomy.vn/kinh-te-2026.htm",
+        "expect": {
+          "tool_calls": [
+            {
+              "name": "fetch",
+              "args": {
+                "url": "https://vneconomy.vn/kinh-te-2026.htm"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "metadata": {
+      "skill": "multiturn_search_and_fetch",
+      "difficulty": "medium",
+      "what_it_tests": "Tra cứu tổng quan -> Đọc chi tiết URL cụ thể."
+    }
+  }
+]
