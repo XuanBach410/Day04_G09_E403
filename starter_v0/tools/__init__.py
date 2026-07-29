@@ -18,7 +18,7 @@ from .social_search.tool import search_tweets
 from .send.tool import send_telegram
 from .lookup.tool import web_search
 from .vnstock_tool.tool import execute as get_stock_info
-
+from .market_flow.tool import execute as market_flow
 
 # NOTE (starter_v0): tool names here are intentionally vague. These keys are the
 # names the model sees AND the names data/eval_base.json + data/eval_research_extension.json
@@ -37,6 +37,7 @@ TOOL_FUNCTIONS = {
     "papers": arxiv_search,
     "paper_text": get_arxiv_paper_text,
     "get_stock_info": get_stock_info,
+    "market_flow": market_flow,
 }
 
 
