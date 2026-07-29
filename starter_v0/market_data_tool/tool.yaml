@@ -1,0 +1,24 @@
+tools:
+  # ---------------- Core tools ----------------
+  - name: clarify
+    description: "Gửi một câu hỏi cho người dùng."
+    parameters:
+      type: object
+      properties:
+        question: {type: string, default: "", description: "Câu hỏi"}
+        response_type: {type: string, enum: [text, yes_no, choice], default: "text", description: "Kiểu trả lời"}
+        options: {type: array, default: [], items: {type: string}, description: "Các lựa chọn"}
+      required: [question]
+
+  - name: market_data
+    description: "Tra cứu dữ liệu thị trường công khai tương tự yfinance: giá gần nhất, lịch sử OHLCV hoặc tìm mã. Dữ liệu chỉ để tham khảo, không phải tư vấn đầu tư."
+    parameters:
+      type: object
+      properties:
+        action: {type: string, enum: [quote, history, search], description: "Loại truy vấn"}
+        symbol: {type: string, default: "", description: "Mã, ví dụ AAPL, BTC-USD, VNM.VN; bắt buộc cho quote/history"}
+        range_: {type: string, default: "1mo", description: "Khoảng lịch sử: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd hoặc max"}
+        interval: {type: string, default: "1d", description: "Tần suất dữ liệu, ví dụ 1m, 1h, 1d, 1wk hoặc 1mo"}
+        query: {type: string, default: "", description: "Từ khóa tìm mã; bắt buộc cho search"}
+        limit: {type: integer, default: 8, description: "Số kết quả tìm kiếm, tối đa 20"}
+      required: [action]
