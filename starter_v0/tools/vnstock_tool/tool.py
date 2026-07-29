@@ -11,9 +11,9 @@ def execute(args: Dict[str, Any]) -> str:
 
     print(f"\n[Tool Execution] Đang kéo dữ liệu thật cho mã {symbol} từ vnstock...")
     try:
-        from vnstock import Vnstock
-        stock = Vnstock().stock(symbol=symbol, source='TCBS')
-        df = stock.quote.history(start='2024-01-01', end='2024-12-31') 
+        from vnstock.api.quote import Quote
+        stock = Quote(symbol=symbol, source='VCI')
+        df = stock.history(start='2024-01-01', end='2024-12-31') 
         recent_data = df.tail(5) 
         return recent_data.to_string()
     except Exception as e:

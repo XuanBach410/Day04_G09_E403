@@ -22,12 +22,12 @@ def get_stock_info(symbol: str) -> str:
     """
     print(f"\n[Tool Execution] Đang kéo dữ liệu thật cho mã {symbol} từ vnstock3...")
     try:
-        from vnstock import Vnstock
-        # Khởi tạo đối tượng lấy dữ liệu chứng khoán từ TCBS
-        stock = Vnstock().stock(symbol=symbol.upper(), source='TCBS')
+        from vnstock.api.quote import Quote
+        # Khởi tạo đối tượng lấy dữ liệu chứng khoán từ VCI
+        stock = Quote(symbol=symbol.upper(), source='VCI')
         
         # Lấy lịch sử giá (ví dụ lấy 10 ngày giao dịch gần nhất)
-        df = stock.quote.history(start='2024-01-01', end='2024-12-31') 
+        df = stock.history(start='2024-01-01', end='2024-12-31') 
         
         # Lấy 5 dòng gần nhất để tránh context quá dài
         recent_data = df.tail(5) 
