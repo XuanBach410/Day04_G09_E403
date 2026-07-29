@@ -44,6 +44,7 @@ class OpenAIProvider:
             "model": model or self.default_model,
             "messages": messages,
             "temperature": temperature,
+            "seed": 42,
         }
         if tools:
             kwargs["tools"] = tools

@@ -23,8 +23,8 @@ def get_stock_info(symbol: str) -> str:
     print(f"\n[Tool Execution] Đang kéo dữ liệu thật cho mã {symbol} từ vnstock3...")
     try:
         from vnstock.api.quote import Quote
-        # Khởi tạo đối tượng lấy dữ liệu chứng khoán từ VCI
-        stock = Quote(symbol=symbol.upper(), source='VCI')
+        # Khởi tạo đối tượng lấy dữ liệu chứng khoán từ vci
+        stock = Quote(symbol=symbol.upper(), source='vci')
         
         # Lấy lịch sử giá (ví dụ lấy 10 ngày giao dịch gần nhất)
         df = stock.history(start='2024-01-01', end='2024-12-31') 
