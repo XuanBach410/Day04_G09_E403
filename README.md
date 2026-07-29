@@ -95,6 +95,7 @@ Trong fixed eval, chỉ đổi field tên tool để đồng bộ rename; không
 | `data/eval_base.json` | base eval cố định |
 | `data/eval_group.json` | 10 case do nhóm tự viết |
 | `tools/<tool_name>/` | `TOOL.md` + implementation |
+| `new_tool/` | `market_data_tool.py`, `tool.yaml`, `README.md` (tool dữ liệu thị trường mới của nhóm) |
 | `scripts/preflight_provider.py` | kiểm tra provider |
 
 ## Tool tracks
@@ -109,6 +110,12 @@ Core tools:
 - `lookup`: tìm trên web.
 - `fetch`: đọc nội dung một URL.
 - `format`: trình bày các item đã có thành markdown digest.
+
+Tool mới của nhóm (Team Custom Tools):
+
+- `market_data` (`new_tool/market_data_tool.py`): Tra cứu dữ liệu thị trường tài chính công khai từ Yahoo Finance (tương tự `yfinance`), bao gồm lấy giá gần nhất (`quote`), lịch sử OHLCV (`history`), và tìm kiếm mã chứng khoán/crypto (`search`). Không sử dụng thư viện ngoài.
+- `market_flow` (`starter_v0/tools/market_flow/`): Phân tích dòng tiền cá voi & cảnh báo đột biến thanh khoản giao dịch (`whale_alerts_count`, `whale_detected_events`).
+- `vnstock_tool` (`starter_v0/tools/vnstock_tool/`): Tra cứu thông tin chứng khoán Việt Nam qua `vnstock` (`get_stock_info`, `get_company_overview`, `get_financial_ratio`, `get_stock_price`).
 
 Optional/advanced tools có sẵn:
 
