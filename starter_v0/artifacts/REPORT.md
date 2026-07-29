@@ -6,9 +6,9 @@
 
 ## Team
 
-- Team:
-- Members:
-- Provider/model:
+- Team: G09_E403
+- Members: 
+- Provider/model: OpenAI (gpt-4o-mini)
 
 ---
 
@@ -16,41 +16,38 @@
 
 ## A1. Agent này làm được gì
 
-> 1–2 câu mô tả agent dùng để làm gì.
-
-Ví dụ: "Research agent: tìm tin theo từ khóa / theo tài khoản, đọc URL và tổng hợp thành digest."
+Trợ lý AI chuyên nghiên cứu thị trường chứng khoán: Tra cứu dữ liệu thị trường (như yfinance: giá gần nhất, lịch sử OHLCV), cập nhật tin tức tài chính, tìm kiếm diễn biến dư luận trên mạng xã hội về các mã chứng khoán và tổng hợp thành bản tin ngắn gọn.
 
 **Link dùng thử (truy cập được trong showdown):**
 
-> Dán public URL nếu người khác cần mở từ máy riêng; localhost cũng được nếu demo trực tiếp trên máy trình chiếu. Streamlit được khuyến nghị, nhưng nhóm có thể dùng bất kỳ framework nào.
->
-> URL:
+> URL: Localhost:8501
 
 ## A2. Tool agent có
-
-> Liệt kê các tool agent đang dùng. Mỗi tool 1 dòng: tên + làm được gì.
 
 | Tên tool | Làm được gì | Tool mới nhóm thêm? |
 |---|---|---|
 | clarify | hỏi lại người dùng khi thiếu thông tin | không |
-|  |  |  |
-|  |  |  |
+| timeline | lấy bài đăng gần đây của một tài khoản Twitter | không |
+| social_search | tìm bài đăng theo từ khóa trên mạng xã hội | không |
+| lookup | tra cứu tin tức, thông tin thị trường trên internet | không |
+| fetch | đọc và trích xuất nội dung từ một địa chỉ URL | không |
+| market_data | tra cứu dữ liệu thị trường chứng khoán (giá, lịch sử OHLCV, tìm mã) | CÓ (Tool nhóm tự làm) |
 
 ## A3. Câu hỏi mẫu để thử
 
-> 3–5 câu hỏi/yêu cầu mẫu để team khác tự thử agent ngay.
-
-1.
-2.
-3.
+1. Lấy dữ liệu giá 5 phiên gần nhất của mã cổ phiếu FPT giúp mình.
+2. Tin tức thị trường chứng khoán hôm nay có gì nổi bật?
+3. Mọi người trên Twitter đang bàn tán gì về cổ phiếu VNM?
+4. Đọc giúp tôi bài viết này và tóm tắt những ý chính: [dán một URL bài báo tài chính]
+5. Tìm tin tức về Vingroup và giá cổ phiếu VIC hôm nay.
 
 ## A4. Kịch bản demo đã rehearse
 
-> Chuẩn bị 3–5 scenario. Mỗi scenario cần cho thấy tool đã làm gì và một thay đổi cụ thể giữa các version.
-
 | Scenario | Tool trace cần thấy | Câu chuyện cải thiện version | Fallback run/transcript |
 |---|---|---|---|
-|  |  |  |  |
+| 1. Hỏi giá CP nhưng quên ghi mã | `clarify` được gọi để hỏi mã CP | v0 tự đoán bừa mã $\rightarrow$ v1 biết gọi `clarify` hỏi lại | transcripts/demo1.json |
+| 2. Hỏi tin tức chứng khoán | `lookup` với `query` tinh gọn | v0 nhét từ "tin tức" vào query $\rightarrow$ v2 tách từ khóa lõi | transcripts/demo2.json |
+| 3. Song song lấy tin và giá cổ phiếu | `lookup` & `market_data` chạy song song | Minh họa agent xử lý yêu cầu phức tạp từ người dùng | transcripts/demo3.json |
 
 ---
 
