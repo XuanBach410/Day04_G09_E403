@@ -116,3 +116,12 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang"}
         max_chars: {type: integer, default: 8000, description: "Số ký tự"}
       required: [arxiv_url]
+
+  - name: get_stock_info
+    description: "Lấy thông tin và giá lịch sử của một mã cổ phiếu trên thị trường chứng khoán Việt Nam."
+    parameters:
+      type: object
+      properties:
+        symbol: {type: string, description: "Mã cổ phiếu (VD: HPG, VCB)"}
+      required: [symbol]
+
