@@ -77,6 +77,36 @@ tools:
         headline: {type: string, default: "", description: "Tiêu đề"}
       required: [items, template]
 
+  - name: sector_analysis
+    description: "Phân tích nhóm ngành cổ phiếu từ tên ngành hoặc danh sách ticker. Trả về mã đại diện, động lực tăng trưởng, rủi ro, góc nghiên cứu và gợi ý tool tiếp theo. Dùng cho câu hỏi về nhóm ngành/ngành cổ phiếu; không dùng cho giá realtime hoặc tin mới nhất."
+    parameters:
+      type: object
+      properties:
+        sector:
+          type: string
+          default: ""
+          description: "Tên nhóm ngành, ví dụ technology, semiconductors, banking, energy, healthcare, consumer, real_estate, materials hoặc tiếng Việt tương đương."
+        tickers:
+          type: array
+          default: []
+          items: {type: string}
+          description: "Danh sách ticker cần phân loại/so sánh theo nhóm ngành, ví dụ AAPL, NVDA, VCB.VN."
+        region:
+          type: string
+          enum: [global, us, vietnam]
+          default: global
+          description: "Thị trường ưu tiên khi phân tích."
+        detail_level:
+          type: string
+          enum: [brief, standard, deep]
+          default: standard
+          description: "Mức độ chi tiết của phân tích."
+        use_live_api:
+          type: boolean
+          default: true
+          description: "Có gọi Alpha Vantage API để lấy sector/industry/company profile theo ticker hay không. Cần ALPHAVANTAGE_API_KEY trong .env."
+      required: []
+
   # ---------------- Bonus tools ----------------
   - name: send
     description: "Gửi một đoạn văn bản đi."
