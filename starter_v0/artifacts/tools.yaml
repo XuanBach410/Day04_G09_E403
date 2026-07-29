@@ -125,3 +125,14 @@ tools:
         symbol: {type: string, description: "Mã cổ phiếu (VD: HPG, VCB)"}
       required: [symbol]
 
+  - name: whale_market_flow
+    description: "Phân tích dòng tiền cá voi (gom/xả hàng lớn) và trạng thái thanh khoản thị trường (ảm đạm hay sôi động trở lại) cho một mã cổ phiếu."
+    parameters:
+      type: object
+      properties:
+        symbol: {type: string, description: "Mã cổ phiếu (VD: VNM, HPG, FPT)"}
+        days: {type: integer, default: 30, description: "Số ngày lịch sử phân tích (mặc định 30)"}
+        threshold_multiplier: {type: number, default: 2.0, description: "Hệ số đột biến khối lượng so với SMA20 (mặc định 2.0)"}
+      required: [symbol]
+
+
